@@ -11,13 +11,13 @@ totalSize() {
             printf "\n\e[1;31m%s\e[0m\n" "ERROR - ${directories[i]} doesn't exists"
         else
             size_to_check="$(du -s "${directories[i]}" 2> /dev/null | cut -f1)"
-            if [[ "${size_to_check}" -gt $((1024**2)) ]]; then
+            if [[ "${size_to_check}" -ge $((1024**2)) ]]; then
                 size_to_print=$(printf "%s" "${size_to_check}" | awk '{printf "%s", $1/1024^2}')
                 printf "\n\e[32m%s\e[0m  \e[33m%s\e[0m\n" "${directories[i]}" "${size_to_print} G"
             elif [[ "${size_to_check}" -gt 1024 ]]; then
                 size_to_print=$(printf "%s" "${size_to_check}" | awk '{printf "%s", $1/1024}')
                 printf "\n\e[32m%s\e[0m  \e[33m%s\e[0m\n" "${directories[i]}" "${size_to_print} M"
-            elif [[ "${size_to_check}" -le 1024 ]]; then
+            else
                 printf "\n\e[32m%s\e[0m  \e[33m%s\e[0m\n" "${directories[i]}" "${size_to_check} K"
             fi
         fi
@@ -39,7 +39,7 @@ detailSize() {
     done
 
     for ((j=0;j<"${#for_parsing[@]}";j++)) do
-        size="$(echo "${for_parsing[j]}" | cut -f1)"
+        size="$(printf "%s" "${for_parsing[j]}" | cut -f1)"
         if [[ "${size}" -gt $((1024**2)) ]]; then
             size_to_print=$(printf "%s" "${size}" | awk '{printf "%s", $1/1024^2}')
             printf "\n\e[32m%s\e[0m  \e[33m%s\e[0m\n" "${for_parsing[i]}" "${size_to_print} G"

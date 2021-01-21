@@ -11,7 +11,6 @@ totalSize() {
             printf "\n\e[1;31m%s\e[0m\n" "ERROR - ${directories[i]} doesn't exists"
         else
             size_to_check="$(du -s "${directories[i]}" 2> /dev/null | cut -f1)"
-
             if [[ "${size_to_check}" -gt $((1024**2)) ]]; then
                 size_to_print=$(printf "%s" "${size_to_check}" | awk '{printf "%s", $1/1024^2}')
                 printf "\n\e[32m%s\e[0m  \e[33m%s\e[0m\n" "${directories[i]}" "${size_to_print} G"
@@ -36,22 +35,20 @@ detailSize() {
             while read -r parsed_arr; do
                 for_parsing+=("${parsed_arr}")
             done <<< "$(du "${directories[i]}" 2> /dev/null)"
-       fi  
+        fi  
     done
 
     for ((j=0;j<"${#for_parsing[@]}";j++)) do
-            
-            size="$(echo "${for_parsing[j]}" | cut -f1)"
-
-            if [[ "${size}" -gt $((1024**2)) ]]; then
-                size_to_print=$(printf "%s" "${size}" | awk '{printf "%s", $1/1024^2}')
-                printf "\n\e[32m%s\e[0m  \e[33m%s\e[0m\n" "${for_parsing[i]}" "${size_to_print} G"
-            elif [[ "${size}" -gt 1024 ]]; then
-                printing_size=$(printf "%s" "${size}" | awk '{printf "%s", $1/1024}')
-                printf "\e[32m%s\e[0m  \e[33m%s\e[0m\n" "$(echo "${for_parsing[j]}" | cut -f 2)" "${printing_size} M"
-            else
-                printf "\e[32m%s\e[0m  \e[33m%s\e[0m\n" "$(echo "${for_parsing[j]}" | cut -f 2)" "${size} K"
-            fi
+        size="$(echo "${for_parsing[j]}" | cut -f1)"
+        if [[ "${size}" -gt $((1024**2)) ]]; then
+            size_to_print=$(printf "%s" "${size}" | awk '{printf "%s", $1/1024^2}')
+            printf "\n\e[32m%s\e[0m  \e[33m%s\e[0m\n" "${for_parsing[i]}" "${size_to_print} G"
+        elif [[ "${size}" -gt 1024 ]]; then
+            printing_size=$(printf "%s" "${size}" | awk '{printf "%s", $1/1024}')
+            printf "\e[32m%s\e[0m  \e[33m%s\e[0m\n" "$(echo "${for_parsing[j]}" | cut -f 2)" "${printing_size} M"
+        else
+            printf "\e[32m%s\e[0m  \e[33m%s\e[0m\n" "$(echo "${for_parsing[j]}" | cut -f 2)" "${size} K"
+        fi
     done
     printf "\n"
 }
@@ -59,12 +56,12 @@ detailSize() {
 check_opt_validity() {
     local count=0
     for ((i=0;i<"${#options_validity[@]}";i++)); do
-            if [[ $1 != "${options_validity[i]}" ]]; then
-                ((count++))
-            fi
+        if [[ $1 != "${options_validity[i]}" ]]; then
+            ((count++))
+        fi
     done
 
-    if [[ ${count} -eq ${#options_validity[@]} ]]; then
+    if  [[ ${count} -eq ${#options_validity[@]} ]]; then
             printf "\n\e[1;31m%s\e[0m\n\n" "${usage}"
             exit 1
     fi

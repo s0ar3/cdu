@@ -14,12 +14,12 @@ totalSize() {
 
             if [[ "${size_to_check}" -gt $((1024**2)) ]]; then
                 size_to_print=$(printf "%s" "${size_to_check}" | awk '{printf "%s", $1/1024^2}')
-                printf "\n\e[32m%s\e[0m\t\e[33m%s\e[0m\n" "${directories[i]}" "${size_to_print} G"
+                printf "\n\e[32m%s\e[0m  \e[33m%s\e[0m\n" "${directories[i]}" "${size_to_print} G"
             elif [[ "${size_to_check}" -gt 1024 ]]; then
                 size_to_print=$(printf "%s" "${size_to_check}" | awk '{printf "%s", $1/1024}')
-                printf "\n\e[32m%s\e[0m\t\e[33m%s\e[0m\n" "${directories[i]}" "${size_to_print} M"
+                printf "\n\e[32m%s\e[0m  \e[33m%s\e[0m\n" "${directories[i]}" "${size_to_print} M"
             elif [[ "${size_to_check}" -le 1024 ]]; then
-                printf "\n\e[32m%s\e[0m\t\e[33m%s\e[0m\n" "${directories[i]}" "${size_to_check} K"
+                printf "\n\e[32m%s\e[0m\  \e[33m%s\e[0m\n" "${directories[i]}" "${size_to_check} K"
             fi
         fi
     done
@@ -45,12 +45,12 @@ detailSize() {
 
             if [[ "${size}" -gt $((1024**2)) ]]; then
                 size_to_print=$(printf "%s" "${size}" | awk '{printf "%s", $1/1024^2}')
-                printf "\n\e[32m%s\e[0m\t\e[33m%s\e[0m\n" "${for_parsing[i]}" "${size_to_print} G"
+                printf "\n\e[32m%s\e[0m\t\e[33m%.2f\e[0m\n" "${for_parsing[i]}" "${size_to_print} G"
             elif [[ "${size}" -gt 1024 ]]; then
                 printing_size=$(printf "%s" "${size}" | awk '{printf "%s", $1/1024}')
-                printf "\e[32m%s\e[0m\t\e[33m%s\e[0m\n" "$(echo "${for_parsing[j]}" | cut -f 2)" "${printing_size} M"
+                printf "\e[32m%s\e[0m\t\e[33m%.2f\e[0m\n" "$(echo "${for_parsing[j]}" | cut -f 2)" "${printing_size} M"
             else
-                printf "\e[32m%s\e[0m\t\e[33m%s\e[0m\n" "$(echo "${for_parsing[j]}" | cut -f 2)" "${size} K"
+                printf "\e[32m%s\e[0m\t\e[33m%.2f\e[0m\n" "$(echo "${for_parsing[j]}" | cut -f 2)" "${size} K"
             fi
     done
     printf "\n"

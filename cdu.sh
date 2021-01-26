@@ -39,7 +39,7 @@ detailSize() {
     done
 
     for ((j=0;j<"${#for_parsing[@]}";j++)) do
-        size="$(printf "%.2f" "${for_parsing[j]}" | cut -f1)"
+        size="$(printf "%s" "${for_parsing[j]}" | cut -f1)"
         if [[ "${size}" -gt $((1024**2)) ]]; then
             size_to_print=$(printf "%.2f" "${size}" | awk '{printf "%.2f", $1/1024^2}')
             printf "\n\e[32m%s\e[0m  \e[33m%s\e[0m\n" "${for_parsing[i]}" "${size_to_print} G"
